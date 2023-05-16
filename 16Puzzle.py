@@ -3,28 +3,50 @@ import numpy
 def init_puzzle(puzzle_board):
     pass
 
-def solve_puzzle(puzzle_board, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]]):
-    #buat clone board
-    temp_board = copy_board(puzzle_board)
-    #cek posisi tukar
-    row, col = find_blank(temp_board)
-    #batas tukar
-    swap_board = []
-    if (row-1) >= 0:
-        swap_board.append(swap(temp_board, row, col, row-1, col))
-    if (row+1) <= 3:
-        swap_board.append(swap(temp_board, row, col, row+1, col))
-    if (col-1) >= 0:
-        swap_board.append(swap(temp_board, row, col, row, col-1))
-    if (col+1) <= 3:
-        swap_board.append(swap(temp_board, row, col, row, col+1))
-    #best score heuristic (percent)
-    print(swap_board)
-    score = []
-    for i in swap_board:
-        score.append(heuristic(i, goal))
-    print(score)
-    #loop lagi
+def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]], iter = 0):
+    while iter <= 10000:
+        #buat clone board
+        temp_board = copy_board(puzzle_board)
+        #cek posisi tukar
+        row, col = find_blank(temp_board)
+        #batas tukar
+        swap_board = []
+        if (row-1) >= 0:
+            temp1_board = swap(temp_board,row, col, row-1,col)
+            swap_board.append(temp1_board)
+        if (row+1) <= 3:
+            temp2_board = swap(temp_board,row, col, row+1,col)
+            swap_board.append(temp2_board)
+        if (col-1) >= 0:
+            temp3_board = swap(temp_board, row, col, row, col-1)
+            swap_board.append(temp3_board)
+        if (col+1) <= 3:
+            temp4_board = swap(temp_board, row, col, row, col+1)
+            swap_board.append(temp4_board)
+        #best score heuristic (percent)
+        score = []
+        for i in swap_board:
+            score.append(heuristic(i, goal))
+        
+        #cek max score
+        change = False
+        for i in range(len(score)):
+            if score[i] > cur_score:
+                cur_score = score[i]
+                puzzle_board = swap_board[i]
+                change = True
+        
+        if cur_score == 100.0:
+            print("Solution Found")
+            print(puzzle_board)
+            return
+
+        #batas minimum
+        if not change:
+            print("mencapai batas minimum")
+            return
+
+    print("Solution not found")
 
 def find_blank(puzzle_board):
     for i in range(4):
@@ -51,11 +73,12 @@ def copy_board(puzzle_board):
     return new_board
 
 def swap(puzzle_board, row, col, row_swap, col_swap):
-    puzzle_board[row][col], puzzle_board[row_swap][col_swap] = puzzle_board[row_swap][col_swap], puzzle_board[row][col]
-    return puzzle_board
+    temp1_board = copy_board(puzzle_board)
+    temp1_board[row][col], temp1_board[row_swap][col_swap] = temp1_board[row_swap][col_swap], temp1_board[row][col]
+    return temp1_board
     
 
-puzzle_board = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,0,15]]
+puzzle_board = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[0,13,14,15]]
 
 # puzzle_board = init_puzzle(puzzle_board)
-solve_puzzle(puzzle_board)
+solve_puzzle(puzzle_board, 81.25)
