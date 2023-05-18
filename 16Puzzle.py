@@ -5,6 +5,7 @@ def init_puzzle(puzzle_board):
 
 def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]], iter = 0):
     while iter <= 10000:
+        print(puzzle_board)
         #buat clone board
         temp_board = copy_board(puzzle_board)
         #cek posisi tukar
@@ -27,6 +28,7 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
         score = []
         for i in swap_board:
             score.append(heuristic(i, goal))
+        print("score = ", score)
         
         #cek max score
         change = False
@@ -79,6 +81,7 @@ def swap(puzzle_board, row, col, row_swap, col_swap):
     
 
 puzzle_board = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[0,13,14,15]]
+score = heuristic(puzzle_board, [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]])
 
 # puzzle_board = init_puzzle(puzzle_board)
-solve_puzzle(puzzle_board, 81.25)
+solve_puzzle(puzzle_board, score)
