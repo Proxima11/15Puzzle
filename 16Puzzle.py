@@ -43,9 +43,9 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
             print(puzzle_board)
             return
 
-        #batas minimum
+        #local maxima
         if not change:
-            print("mencapai batas minimum")
+            print("mencapai batas maxima")
             return
 
     print("Solution not found")
