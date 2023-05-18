@@ -1,7 +1,31 @@
 import numpy
 
 def init_puzzle(puzzle_board):
-    pass
+    b = 3
+    k = 3
+    for i in range(400):
+        angka = numpy.random.randint(0,99)
+        if angka < 25:
+            if b > 0:
+                puzzle_board[b][k] = puzzle_board[b-1][k]
+                b-=1 
+                puzzle_board[b][k] = 0
+        elif angka < 50:
+            if b < 3:
+                puzzle_board[b][k] = puzzle_board[b+1][k]
+                b+=1 
+                puzzle_board[b][k] = 0
+        elif angka < 75:
+            if k > 0:
+                puzzle_board[b][k] = puzzle_board[b][k-1]
+                k-=1 
+                puzzle_board[b][k] = 0
+        elif angka < 100:
+            if k < 3:
+                puzzle_board[b][k] = puzzle_board[b][k+1]
+                k+=1 
+                puzzle_board[b][k] = 0
+    return puzzle_board
 
 def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]], iter = 0):
     while iter <= 10000:
@@ -38,14 +62,14 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
                 puzzle_board = swap_board[i]
                 change = True
         
-        if cur_score == 100.0:
+        if cur_score == 16:
             print("Solution Found")
             print(puzzle_board)
             return
 
-        #local maxima
+        #local maximum
         if not change:
-            print("mencapai batas maxima")
+            print("mencapai batas maximum")
             return
 
     print("Solution not found")
@@ -62,7 +86,7 @@ def heuristic(puzzle_board, goal):
         for j in range(len(puzzle_board[i])):
             if puzzle_board[i][j] == goal[i][j]:
                 matched += 1
-    return matched/16*100
+    return matched
             
 
 def copy_board(puzzle_board):
@@ -83,5 +107,6 @@ def swap(puzzle_board, row, col, row_swap, col_swap):
 puzzle_board = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[0,13,14,15]]
 score = heuristic(puzzle_board, [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]])
 
-# puzzle_board = init_puzzle(puzzle_board)
+puzzle_board = init_puzzle(puzzle_board)
+print("board awal : ", puzzle_board)
 solve_puzzle(puzzle_board, score)
