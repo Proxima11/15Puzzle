@@ -3,7 +3,7 @@ import numpy
 def init_puzzle(puzzle_board):
     b = 3
     k = 3
-    for i in range(400):
+    for i in range(100):
         angka = numpy.random.randint(0,99)
         if angka < 25:
             if b > 0:
@@ -51,6 +51,7 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
         score = []
         for i in swap_board:
             score.append(heuristic(i, goal))
+        print("current score = ", cur_score)
         print("score = ", score)
         
         #cek max score
