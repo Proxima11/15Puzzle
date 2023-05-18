@@ -8,28 +8,27 @@ def init_puzzle(puzzle_board):
         if angka < 25:
             if b > 0:
                 puzzle_board[b][k] = puzzle_board[b-1][k]
-                b-=1 
+                b-=1
                 puzzle_board[b][k] = 0
         elif angka < 50:
             if b < 3:
                 puzzle_board[b][k] = puzzle_board[b+1][k]
-                b+=1 
+                b+=1
                 puzzle_board[b][k] = 0
         elif angka < 75:
             if k > 0:
                 puzzle_board[b][k] = puzzle_board[b][k-1]
-                k-=1 
+                k-=1
                 puzzle_board[b][k] = 0
         elif angka < 100:
             if k < 3:
                 puzzle_board[b][k] = puzzle_board[b][k+1]
-                k+=1 
+                k+=1
                 puzzle_board[b][k] = 0
     return puzzle_board
 
 def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]], iter = 0):
     while iter <= 10000:
-        print(puzzle_board)
         #buat clone board
         temp_board = copy_board(puzzle_board)
         #cek posisi tukar
@@ -64,7 +63,7 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
         
         if cur_score == 16:
             print("Solution Found")
-            print(puzzle_board)
+            print("board akhir : ", puzzle_board)
             return
 
         #local maximum
@@ -104,9 +103,9 @@ def swap(puzzle_board, row, col, row_swap, col_swap):
     return temp1_board
     
 
-puzzle_board = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[0,13,14,15]]
-score = heuristic(puzzle_board, [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]])
+puzzle_board = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]]
 
 puzzle_board = init_puzzle(puzzle_board)
+score = heuristic(puzzle_board, [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]])
 print("board awal : ", puzzle_board)
 solve_puzzle(puzzle_board, score)
