@@ -27,8 +27,7 @@ def init_puzzle(puzzle_board):
                 puzzle_board[b][k] = 0
     return puzzle_board
 
-def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]], iter = 0):
-    store_board = dict()
+def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]], iter = 0, store_board = [], store_value = []):
     while iter <= 10000:
         #buat clone board
         temp_board = copy_board(puzzle_board)
@@ -55,6 +54,11 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
         print("current score = ", cur_score)
         print("score = ", score)
         
+        #simpan board dan score
+        for i in range(len(score)):
+                store_board.append(swap_board[i])
+                store_value.append(score[i])
+
         #cek max score
         change = False
         index = -1
@@ -63,7 +67,7 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
                 cur_score = score[i]
                 puzzle_board = swap_board[i]
                 change = True
-                index = i       
+                index = i
         
         #cek selesai
         if cur_score == 16:
@@ -71,29 +75,32 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
             print("board akhir : ", puzzle_board)
             return
         
+        #keluarkan isi board sekarang
         if change:
-            score.pop(index)
-            swap_board.pop(index)
-            for i in range(len(score)):
-                zip_board = zip(*swap_board[i])
-                store_board.update({zip_board:score[i]})
+            store_board.pop(len(store_board)-len(swap_board)+index)
+            store_value.pop(len(store_value)-len(score)+index)
 
-        print(store_board)
         #local maximum
         if not change:
             temp = [] 
+            temp_index = []
             #cari nilai sama
-            for item, value in store_board.items():
-                if value == cur_score:
-                    temp.append()#unzip masih bingung
-            print(temp)
+            for i in range(len(store_value)):
+                if store_value[i] == cur_score:
+                    temp.append(store_board[i])
+                    temp_index.append(i)
             if len(temp) == 0:
                 print("Soultion not found (local maximum)")
                 return
+            
             #random (stochastic hill climbing)
-            get_random = numpy.random.randint(0, len(temp))
+            get_random = numpy.random.randint(len(temp))
             puzzle_board = copy_board(temp[get_random])
-            store_board.pop(temp[get_random])
+            store_board.pop(temp_index[get_random])
+            store_value.pop(temp_index[get_random])
+        
+        print(store_board)
+        print(store_value)
 
     print("Solution not found (iter max)")
 
