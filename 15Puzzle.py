@@ -27,10 +27,11 @@ def init_puzzle(puzzle_board):
                 puzzle_board[b][k] = 0
     return puzzle_board
 
-def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]], iter = 0, store_board = [], store_value = []):
-    while iter <= 10000:
+def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]], iter = 0, store_board = [], store_value = [], past_board = []):
+    while iter <= 1000:
         #buat clone board
         temp_board = copy_board(puzzle_board)
+        past_board.append(copy_board(temp_board))
         #cek posisi tukar
         row, col = find_blank(temp_board)
         #batas tukar
@@ -51,8 +52,6 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
         score = []
         for i in swap_board:
             score.append(heuristic(i, goal))
-        print("current score = ", cur_score)
-        print("score = ", score)
         
         #simpan board dan score
         for i in range(len(score)):
@@ -63,7 +62,7 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
         change = False
         index = -1
         for i in range(len(score)):
-            if score[i] > cur_score:
+            if score[i] > cur_score and swap_board[i] not in past_board:
                 cur_score = score[i]
                 puzzle_board = swap_board[i]
                 change = True
@@ -85,12 +84,22 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
             temp = [] 
             temp_index = []
             #cari nilai sama
+            second_best = -1
             for i in range(len(store_value)):
-                if store_value[i] == cur_score:
+                if store_value[i] == cur_score and store_board[i] not in past_board:
                     temp.append(store_board[i])
                     temp_index.append(i)
+                elif store_value[i] > second_best and store_board[i] not in past_board:
+                    second_best = store_value[i]
             if len(temp) == 0:
-                print("Soultion not found (local maximum)")
+                cur_score = second_best
+                for i in range(len(store_value)):
+                    if store_value[i] == second_best and store_board[i] not in past_board:
+                        temp.append(store_board[i])
+                        temp_index.append(i)
+            
+            if len(store_board) == 0:
+                print("Solution not found (local maximum)")
                 return
             
             #random (stochastic hill climbing)
@@ -98,10 +107,9 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
             puzzle_board = copy_board(temp[get_random])
             store_board.pop(temp_index[get_random])
             store_value.pop(temp_index[get_random])
-        
-        print(store_board)
-        print(store_value)
-
+        print("board = ", puzzle_board)
+        print("current score = ", cur_score)
+        iter += 1
     print("Solution not found (iter max)")
 
 def find_blank(puzzle_board):
