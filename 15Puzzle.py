@@ -57,21 +57,43 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
         
         #cek max score
         change = False
+        index = -1
         for i in range(len(score)):
             if score[i] > cur_score:
                 cur_score = score[i]
                 puzzle_board = swap_board[i]
-                change = True  
+                change = True
+                index = i       
         
         #cek selesai
         if cur_score == 16:
             print("Solution Found")
             print("board akhir : ", puzzle_board)
             return
+        
+        if change:
+            score.pop(index)
+            swap_board.pop(index)
+            for i in range(len(score)):
+                zip_board = zip(*swap_board[i])
+                store_board.update({zip_board:score[i]})
 
+        print(store_board)
         #local maximum
         if not change:
-            print("Solution not found (local maximum)")
+            temp = [] 
+            #cari nilai sama
+            for item, value in store_board.items():
+                if value == cur_score:
+                    temp.append()#unzip masih bingung
+            print(temp)
+            if len(temp) == 0:
+                print("Soultion not found (local maximum)")
+                return
+            #random (stochastic hill climbing)
+            get_random = numpy.random.randint(0, len(temp))
+            puzzle_board = copy_board(temp[get_random])
+            store_board.pop(temp[get_random])
 
     print("Solution not found (iter max)")
 

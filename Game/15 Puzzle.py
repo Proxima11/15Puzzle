@@ -19,9 +19,9 @@ delay = 0.3
 last = 0
 
 # tile images
-full = pygame.image.load("full.png").convert_alpha()
+full = pygame.image.load("16Puzzle/16Puzzle/Game/full.png").convert_alpha()
 for i in range (1,17):
-    tileImage.append(pygame.image.load(f"tile{i}.png").convert_alpha())
+    tileImage.append(pygame.image.load(f"16Puzzle/16Puzzle/Game/tile{i}.png").convert_alpha())
 
     
 
