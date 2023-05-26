@@ -97,7 +97,7 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
         if (col+1) <= 3:
             temp4_board = swap(temp_board, row, col, row, col+1)
             swap_board.append(temp4_board)
-        #best score heuristic (percent)
+        #best score heuristic
         score = []
         for i in swap_board:
             score.append(heuristic(i, goal))
@@ -112,14 +112,14 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
         change = False
         index = -1
         for i in range(len(score)):
-            if score[i] > cur_score:
+            if score[i] < cur_score:
                 cur_score = score[i]
                 puzzle_board = swap_board[i]
                 change = True
                 index = i
         
         #cek selesai
-        if cur_score == 16:
+        if cur_score == 0:
             print("Solution Found")
             print("board akhir : ", puzzle_board)
             return
@@ -134,12 +134,12 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
             temp = [] 
             temp_index = []
             #cari nilai sama
-            second_best = -1
+            second_best = 9999999
             for i in range(len(store_value)):
                 if store_value[i] == cur_score:
                     temp.append(store_board[i])
                     temp_index.append(i)
-                elif store_value[i] > second_best:
+                if store_value[i] < second_best:
                     second_best = store_value[i]
             if len(temp) == 0:
                 cur_score = second_best
@@ -148,7 +148,7 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
                         temp.append(store_board[i])
                         temp_index.append(i)
             
-            if len(store_board) == 0:
+            if len(temp) == 0:
                 print("Solution not found (local maximum)")
                 return
             
@@ -169,12 +169,18 @@ def find_blank(puzzle_board):
                 return i,j
             
 def heuristic(puzzle_board, goal):
-    matched = 0
-    for i in range(len(puzzle_board)):
-        for j in range(len(puzzle_board[i])):
-            if puzzle_board[i][j] == goal[i][j]:
-                matched += 1
-    return matched
+    score = 0
+    for loop in range(16):
+        index_puzzle = []
+        index_goal = []
+        for i in range(len(puzzle_board)):
+            for j in range(len(puzzle_board[i])):
+                if puzzle_board[i][j] == loop:
+                    index_puzzle = [i,j]
+                if goal[i][j] == loop:
+                    index_goal = [i,j]
+        score = score + (abs(index_puzzle[0]-index_goal[0])) + (abs(index_puzzle[1]-index_goal[1]))
+    return score
             
 def copy_board(puzzle_board):
     new_board = []
