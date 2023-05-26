@@ -76,7 +76,7 @@ def init_puzzle(puzzle_board):
     return puzzle_board
 # AI SOLVER ============================================================================================================
 
-def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]], iter = 0, store_board = [], store_value = [], past_board = []):
+def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]], iter = 0, store_board = [], store_value = [], past_board = [], avg = 0):
     while iter <= 10000:
         #buat clone board
         temp_board = copy_board(puzzle_board)
@@ -122,6 +122,7 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
         if cur_score == 0:
             print("Solution Found")
             print("board akhir : ", puzzle_board)
+            print("average score : ", (avg/iter))
             return
         
         #keluarkan isi board sekarang
@@ -160,7 +161,10 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
         print("board = ", puzzle_board)
         print("current score = ", cur_score)
         iter += 1
+        avg += cur_score
+        print(iter)
     print("Solution not found (iter max)")
+    print("average score : ", (avg/iter))
 
 def find_blank(puzzle_board):
     for i in range(4):

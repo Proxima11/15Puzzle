@@ -1,0 +1,18 @@
+Local Maximum
+
+Iter Max
+
+Solution Found
+1. iter : 2030, average score : 7.8729064039408865
+2. iter : 8593, average score : 10.508087978587222
+3. iter : 323, average score : 7.739938080495356
+4. iter : 805, average score : 13.431055900621118
+5. iter : 6931, average score : 9.779541191747223
+6. iter : 5512, average score : 9.656386066763424
+7. iter : 47, average score : 11.53191489361702
+8. iter : 7225, average score : 10.045397923875433
+9. iter : 981, average score : 11.412844036697248
+10. iter : 5683, average score : 9.545662502199542
+
+AVERAGE ITER : 3246,7
+AVERAGE SCORE : 10.1523735
