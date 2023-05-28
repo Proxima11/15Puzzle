@@ -3,6 +3,7 @@ import random
 import time
 import numpy
 
+
 pygame.init()
 
 clock = pygame.time.Clock()
@@ -476,26 +477,33 @@ def swap(puzzle_board, row, col, row_swap, col_swap):
     temp1_board[row][col], temp1_board[row_swap][col_swap] = temp1_board[row_swap][col_swap], temp1_board[row][col]
     return temp1_board
 
-# start game
-for i in range(20):
-    besarboard = 4
-    goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]]
-    puzzle_board = generate_board(besarboard)
-    # puzzle_board=[[5, 11, 8, 12], [3, 6, 13, 2], [4, 15, 7, 9], [14, 10, 0, 1]]
-    score = heuristic(puzzle_board, goal)
-    print("board awal : ", puzzle_board)
-    solve_puzzle(puzzle_board, score)
+# # start game
+# for i in range(20):
+#     besarboard = 4
+#     goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]]
+#     puzzle_board = generate_board(besarboard)
+#     # puzzle_board=[[5, 11, 8, 12], [3, 6, 13, 2], [4, 15, 7, 9], [14, 10, 0, 1]]
+#     score = heuristic(puzzle_board, goal)
+#     print("board awal : ", puzzle_board)
+#     solve_puzzle(puzzle_board, score)
 
-# puzzle_board = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]]
-# puzzle_board = init_puzzle(puzzle_board)
-# score = heuristic(puzzle_board, [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]])
-# print("board awal : ", puzzle_board)
+puzzle_board = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]]
+puzzle_board = init_puzzle(puzzle_board)
+score = heuristic(puzzle_board, [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]])
+print("board awal : ", puzzle_board)
+board = puzzle_board
+for i in range (0,4):
+        for j in range (0,4):
+            if board[i][j] == 0:
+                board[i][j] = 16
 # solve_puzzle(puzzle_board, score)
 
-#hill climbing 
-#A*
+# hill climbing 
+# A*
 
-#A* = hill climbing tapi inefisien ;v
+# A* = hill climbing tapi inefisien ;v
+
+
 
 
 run = True
