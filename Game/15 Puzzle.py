@@ -374,19 +374,19 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
         if (row-1) >= 0:
             temp1_board = swap(temp_board,row, col, row-1,col)
             swap_board.append(temp1_board)
-            # moveRight()
+            # moveUp()
         if (row+1) <= 3:
             temp2_board = swap(temp_board,row, col, row+1,col)
             swap_board.append(temp2_board)
-            # moveLeft()
+            # moveDown()
         if (col-1) >= 0:
             temp3_board = swap(temp_board, row, col, row, col-1)
             swap_board.append(temp3_board)
-            # moveUp()
+            # moveRight()
         if (col+1) <= 3:
             temp4_board = swap(temp_board, row, col, row, col+1)
             swap_board.append(temp4_board)
-            # moveDown()
+            # moveLeft()
         #best score heuristic (percent)
         score = []
         for i in swap_board:
