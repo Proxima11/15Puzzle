@@ -374,19 +374,19 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
         if (row-1) >= 0:
             temp1_board = swap(temp_board,row, col, row-1,col)
             swap_board.append(temp1_board)
-            # moveUp()
+            moveUp()
         if (row+1) <= 3:
             temp2_board = swap(temp_board,row, col, row+1,col)
             swap_board.append(temp2_board)
-            # moveDown()
+            moveDown()
         if (col-1) >= 0:
             temp3_board = swap(temp_board, row, col, row, col-1)
             swap_board.append(temp3_board)
-            # moveRight()
+            moveRight()
         if (col+1) <= 3:
             temp4_board = swap(temp_board, row, col, row, col+1)
             swap_board.append(temp4_board)
-            # moveLeft()
+            moveLeft()
         #best score heuristic (percent)
         score = []
         for i in swap_board:
@@ -495,12 +495,12 @@ puzzle_board = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]]
 puzzle_board = init_puzzle(puzzle_board)
 score = heuristic(puzzle_board, [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]])
 print("board awal : ", puzzle_board)
-board = puzzle_board
+board = copy_board(puzzle_board)
 for i in range (0,4):
         for j in range (0,4):
             if board[i][j] == 0:
                 board[i][j] = 16
-# solve_puzzle(puzzle_board, score)
+solve_puzzle(puzzle_board, score)
 
 # hill climbing 
 # A*

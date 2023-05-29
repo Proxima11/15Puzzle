@@ -123,6 +123,7 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
             print("Solution Found")
             print("board akhir : ", puzzle_board)
             print("average score : ", (avg/iter))
+            # print("store",store_board)
             return
         
         #keluarkan isi board sekarang
@@ -165,6 +166,8 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
         print(iter)
     print("Solution not found (iter max)")
     print("average score : ", (avg/iter))
+    
+    
 
 def find_blank(puzzle_board):
     for i in range(4):
