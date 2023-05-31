@@ -445,10 +445,6 @@ def solve_puzzle(puzzle_board, cur_score, boarding, goal = [[1,2,3,4],[5,6,7,8],
                     if boarding[i][j] == 0:
                         boarding[i][j] = 16
             print("change",boarding)
-            # drawGame()
-            # drawTile1(boarding)
-            # enableMovement()
-            # pygame.display.update()
 
         #local maximum
         if not change:
