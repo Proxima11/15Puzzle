@@ -123,8 +123,8 @@ def solve_puzzle(puzzle_board, cur_score, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,1
             print("Solution Found")
             print("board akhir : ", puzzle_board)
             print("average score : ", (avg/iter))
-            print("store",len(past_board))
-            print("storing board", past_board[len(past_board)-1])
+            # print("store",len(past_board))
+            # print("storing board", past_board[len(past_board)-1])
             return
         
         #keluarkan isi board sekarang
