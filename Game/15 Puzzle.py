@@ -16,6 +16,7 @@ pygame.display.set_caption("15 PUZZLE")
 
 tileImage = []
 board = [[1,2,3,4], [5,6,7,8], [9,10,11,12], [13,14,15,16]]
+board_reset = [[1,2,3,4], [5,6,7,8], [9,10,11,12], [13,14,15,16]]
 movement = [[None, None, None, None], [None, None, None, None], [None, None, None, None], [None, None, None, None]]
 
 # menu variables
@@ -195,7 +196,7 @@ def moveRight():
         while currentX != newX:
             #screen.blit(tileImage[15], (currentX,currentY))
             animationRight(tileNum, currentX, currentY)
-            currentX+=0.5
+            currentX+=1
         screen.blit(tileImage[15], (currentX-0.5, currentY))
 
         temp = board[index[0]][index[1]]
@@ -225,7 +226,7 @@ def moveLeft():
         newX = currentX - 133
         while currentX != newX:
             animationLeft(tileNum, currentX, currentY)
-            currentX-=0.5
+            currentX-=1
         screen.blit(tileImage[15], (currentX+0.5, currentY))
 
         temp = board[index[0]][index[1]]
@@ -255,7 +256,7 @@ def moveDown():
         newY = currentY + 130
         while currentY != newY:
             animationDown(tileNum, currentX, currentY)
-            currentY+=0.5
+            currentY+=1
         screen.blit(tileImage[15], (currentX, currentY-0.5))
 
         temp = board[index[0]][index[1]]
@@ -285,7 +286,7 @@ def moveUp():
         newY = currentY - 130
         while currentY != newY:
             animationUp(tileNum, currentX, currentY)
-            currentY-=0.5
+            currentY-=1
         screen.blit(tileImage[15], (currentX, currentY+0.5))
 
         temp = board[index[0]][index[1]]
@@ -347,35 +348,55 @@ def generate_board(besar):
    
 
 def init_puzzle(puzzle_board):
-    b = 3
-    k = 3
     for i in range(100):
+        row, col = find_blank(puzzle_board)
         angka = numpy.random.randint(0,99)
         if angka < 25:
-            if b > 0:
-                puzzle_board[b][k] = puzzle_board[b-1][k]
-                b-=1
-                puzzle_board[b][k] = 0
+            if row > 0:
+                puzzle_board = swap(puzzle_board,row, col, row-1,col)
         elif angka < 50:
-            if b < 3:
-                puzzle_board[b][k] = puzzle_board[b+1][k]
-                b+=1
-                puzzle_board[b][k] = 0
+            if row < 3:
+                puzzle_board = swap(puzzle_board,row, col, row+1,col)
         elif angka < 75:
-            if k > 0:
-                puzzle_board[b][k] = puzzle_board[b][k-1]
-                k-=1
-                puzzle_board[b][k] = 0
+            if col > 0:
+                puzzle_board = swap(puzzle_board,row, col, row,col-1)
         elif angka < 100:
-            if k < 3:
-                puzzle_board[b][k] = puzzle_board[b][k+1]
-                k+=1
-                puzzle_board[b][k] = 0
+            if col < 3:
+                puzzle_board = swap(puzzle_board,row, col, row,col+1)
     return puzzle_board
+
+# yg lama
+# def init_puzzle(puzzle_board):
+#     b = 3
+#     k = 3
+#     for i in range(100):
+#         angka = numpy.random.randint(0,99)
+#         if angka < 25:
+#             if b > 0:
+#                 puzzle_board[b][k] = puzzle_board[b-1][k]
+#                 b-=1
+#                 puzzle_board[b][k] = 0
+#         elif angka < 50:
+#             if b < 3:
+#                 puzzle_board[b][k] = puzzle_board[b+1][k]
+#                 b+=1
+#                 puzzle_board[b][k] = 0
+#         elif angka < 75:
+#             if k > 0:
+#                 puzzle_board[b][k] = puzzle_board[b][k-1]
+#                 k-=1
+#                 puzzle_board[b][k] = 0
+#         elif angka < 100:
+#             if k < 3:
+#                 puzzle_board[b][k] = puzzle_board[b][k+1]
+#                 k+=1
+#                 puzzle_board[b][k] = 0
+#     return puzzle_board
 # AI SOLVER ============================================================================================================
 
-def solve_puzzle(puzzle_board, cur_score, boarding, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]], iter = 0, store_board = [], store_value = [], past_board = [], avg = 0):
-    while iter <= 10000:
+def solve_puzzle(puzzle_board, cur_score, boarding, store_board, store_value, past_board, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]], iter = 0, avg = 0):
+    # print(past_board)
+    while iter <= 5000:
         # draw bg and tiles
         drawGame()
         drawTile1(boarding)
@@ -385,6 +406,7 @@ def solve_puzzle(puzzle_board, cur_score, boarding, goal = [[1,2,3,4],[5,6,7,8],
         #buat clone board
         temp_board = copy_board(puzzle_board)
         past_board.append(copy_board(temp_board))
+
         #cek posisi tukar
         row, col = find_blank(temp_board)
         #batas tukar
@@ -431,20 +453,20 @@ def solve_puzzle(puzzle_board, cur_score, boarding, goal = [[1,2,3,4],[5,6,7,8],
             print("Solution Found")
             print("board akhir : ", puzzle_board)
             print("average score : ", (avg/iter))
-            # print("store",len(past_board))
-            # print("storing board",past_board[len(past_board)-1])
-            return
+            print("boarding : ",boarding)
+            return True, puzzle_board
         
         #keluarkan isi board sekarang
         if change:
             store_board.pop(len(store_board)-len(swap_board)+index)
             store_value.pop(len(store_value)-len(score)+index)
-            boarding = copy_board(past_board[len(past_board)-2])
+            # boarding = copy_board(past_board[len(past_board)-1])
+            boarding = copy_board(puzzle_board)
             for i in range (0,4):
                 for j in range (0,4):
                     if boarding[i][j] == 0:
                         boarding[i][j] = 16
-            print("change",boarding)
+            print("change1",boarding)
 
         #local maximum
         if not change:
@@ -472,6 +494,12 @@ def solve_puzzle(puzzle_board, cur_score, boarding, goal = [[1,2,3,4],[5,6,7,8],
             #random (stochastic hill climbing)
             get_random = numpy.random.randint(abs(len(temp)))
             puzzle_board = copy_board(temp[get_random])
+            boarding = copy_board(puzzle_board)
+            for i in range (0,4):
+                for j in range (0,4):
+                    if boarding[i][j] == 0:
+                        boarding[i][j] = 16
+            print("change2",boarding)
             store_board.pop(temp_index[get_random])
             store_value.pop(temp_index[get_random])
         print("board = ", puzzle_board)
@@ -481,6 +509,9 @@ def solve_puzzle(puzzle_board, cur_score, boarding, goal = [[1,2,3,4],[5,6,7,8],
         print(iter)
     print("Solution not found (iter max)")
     print("average score : ", (avg/iter))
+    # print(past_board)
+    # boarding = []
+    return False, puzzle_board
     
     
 
@@ -527,7 +558,8 @@ for i in range (0,4):
         for j in range (0,4):
             if board[i][j] == 0:
                 board[i][j] = 16
-solve_puzzle(puzzle_board, score, board)
+board_reset = copy_board(board)
+# solve_puzzle(puzzle_board, score, board)
 
 # hill climbing 
 # A*
@@ -537,86 +569,129 @@ solve_puzzle(puzzle_board, score, board)
 
 
 
-# run = True
+run = True
 
-# #game play
-# while run:
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT: run = False
-#     cclock = clock.tick(FPS)
+#game play
+while run:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: run = False
+    cclock = clock.tick(FPS)
 
-#     if mainMenu:
-#         drawMenu()
-#         mouse_x, mouse_y = pygame.mouse.get_pos()
-#         click = pygame.mouse.get_pressed()
+    if mainMenu:
+        drawMenu()
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
 
-#         if click[0] and mouse_x >= 0 and mouse_y >= 0:
-#             mainMenu = False
-#             startGame = True
+        if click[0] and mouse_x >= 0 and mouse_y >= 0:
+            mainMenu = False
+            startGame = True
 
-#     elif startGame:
+    elif startGame:
 
-#         # time variables
-#         now = time.time()
+        # time variables
+        now = time.time()
 
-#         # draw bg and tiles
-#         drawGame()
-#         drawTile()
+        # draw bg and tiles
+        drawGame()
+        drawTile()
+        # drawTile1(board)
         
-#         # get keyboard input and enable movement
-#         key = pygame.key.get_pressed()
-#         enableMovement()
+        # get keyboard input and enable movement
+        key = pygame.key.get_pressed()
+        enableMovement()
 
-#         if key[pygame.K_RIGHT] and ((now-last) > delay):
-#             last = now
-#             moveRight()
-#         elif key[pygame.K_LEFT] and ((now-last) > delay):
-#             last = now
-#             moveLeft()
-#         elif key[pygame.K_UP] and ((now-last) > delay):
-#             last = now
-#             moveUp()
-#         elif key[pygame.K_DOWN] and ((now-last) > delay):
-#             last = now
-#             moveDown()
+        if key[pygame.K_RIGHT] and ((now-last) > delay):
+            last = now
+            moveRight()
+        elif key[pygame.K_LEFT] and ((now-last) > delay):
+            last = now
+            moveLeft()
+        elif key[pygame.K_UP] and ((now-last) > delay):
+            last = now
+            moveUp()
+        elif key[pygame.K_DOWN] and ((now-last) > delay):
+            last = now
+            moveDown()
 
-#         # get mouse input
-#         mouse_x, mouse_y = pygame.mouse.get_pos()
+        # get mouse input
+        mouse_x, mouse_y = pygame.mouse.get_pos()
 
-#         if (mouse_x >= 337 and mouse_x <= 337 + solveHover.get_width()) and (mouse_y >= 50 and mouse_y <= 50 + solveHover.get_height()):
-#             hoverSolve = True
-#         else:
-#             hoverSolve = False
+        if (mouse_x >= 337 and mouse_x <= 337 + solveHover.get_width()) and (mouse_y >= 50 and mouse_y <= 50 + solveHover.get_height()):
+            hoverSolve = True
+        else:
+            hoverSolve = False
 
-#         if (mouse_x >= 415 and mouse_x <= 415 + resetHover.get_width()) and (mouse_y >= 50 and mouse_y <= 50 + resetHover.get_height()):
-#             hoverReset = True
-#         else:
-#             hoverReset = False
+        if (mouse_x >= 415 and mouse_x <= 415 + resetHover.get_width()) and (mouse_y >= 50 and mouse_y <= 50 + resetHover.get_height()):
+            hoverReset = True
+        else:
+            hoverReset = False
 
-#         if (mouse_x >= 499 and mouse_x <= 499 + shuffleHover.get_width()) and (mouse_y >= 50 and mouse_y <= 50 + shuffleHover.get_height()):
-#             hoverShuffle = True
-#         else:
-#             hoverShuffle = False
+        if (mouse_x >= 499 and mouse_x <= 499 + shuffleHover.get_width()) and (mouse_y >= 50 and mouse_y <= 50 + shuffleHover.get_height()):
+            hoverShuffle = True
+        else:
+            hoverShuffle = False
 
-#         # enable button
-#         click = pygame.mouse.get_pressed()
+        # enable button
+        click = pygame.mouse.get_pressed()
 
-#         if click[0] and hoverSolve and ((now-last) > delay):
-#             last = now
-#             print("Solve")
-
-#         if click[0] and hoverReset and ((now-last) > delay):
-#             last = now
-#             print("Reset")
+        if click[0] and hoverSolve and ((now-last) > delay):
+            last = now
+            print("dirun ",puzzle_board)
+            print("dirun ",board)
+            store_board = []
+            store_value = []
+            past_board = []
+            solved, puzzle_board = solve_puzzle(puzzle_board, score, board, store_board, store_value, past_board)
+            pygame.display.update()
+            if(solved):
+                print("Solve")
+            else:
+                print("not solved")
             
-#         if click[0] and hoverShuffle and ((now-last) > delay):
-#             last = now
-#             print("Shuffle")
+            board = copy_board(puzzle_board)
+            for i in range(len(board)):
+                for j in range(len(board)):
+                    if board[i][j] == 0:
+                        board[i][j] = 16
+            print("puzzle board: ",puzzle_board)
+            print("board: ",board)
+            hoverSolve=False
+
+        if click[0] and hoverReset and ((now-last) > delay):
+            last = now
+            puzzle_board = copy_board(board_reset)
+            # cari angka 16 di set ke 0 
+            for i in range(len(puzzle_board)):
+                for j in range(len(puzzle_board)):
+                    if puzzle_board[i][j] == 16:
+                        puzzle_board[i][j] = 0
+            board = copy_board(board_reset)
+            score = heuristic(puzzle_board, [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]])
+            # puzzle_board = init_puzzle(puzzle_board)
+            print("Reset")
+            print("direset ",puzzle_board)
+            print("direset ",board)
+            
+        if click[0] and hoverShuffle and ((now-last) > delay):
+            last = now
+            puzzle_board = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]]
+            puzzle_board = init_puzzle(puzzle_board)
+            score = heuristic(puzzle_board, [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]])
+            for i in range(len(board)):
+                for j in range(len(board)):
+                    board[i][j] = puzzle_board[i][j]
+                    if board[i][j] == 0:
+                        board[i][j] = 16
+            board_reset = copy_board(board)
+            print("dishuffle ",puzzle_board)
+            print("dishuffle ",board)
+            print("Shuffle")
+            drawTile1(board)
 
 
-#     elif gameover:
-#         pass
+    elif gameover:
+        pass
 
-#     pygame.display.update()
+    pygame.display.update()
 
-# pygame.quit()
+pygame.quit()
