@@ -47,24 +47,24 @@ startGame = False
 gameover = False
 
 # menu bg
-menuBg = pygame.image.load("mainMenuBg.png").convert_alpha()
-gameTitle = pygame.image.load("gameTitle.png").convert_alpha()
-startButton = pygame.image.load("startButton.png").convert_alpha()
+menuBg = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/mainMenuBg.png").convert_alpha()
+gameTitle = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/gameTitle.png").convert_alpha()
+startButton = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/startButton.png").convert_alpha()
 
 # tile images
-full = pygame.image.load("full.png").convert_alpha() #isi path sendiri
+full = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/full.png").convert_alpha() #isi path sendiri
 for i in range (1,17):
-    tileImage.append(pygame.image.load(f"tile{i}.png").convert_alpha()) #isi path sendiri
+    tileImage.append(pygame.image.load(f"D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/tile{i}.png").convert_alpha()) #isi path sendiri
 
 # ingame images
-inGameBg = pygame.image.load("backgroundGame.png").convert_alpha()
-header = pygame.image.load("headerGame.png").convert_alpha()
-solveUnhover = pygame.image.load("solveUnhover.png").convert_alpha()
-solveHover = pygame.image.load("solveHover.png").convert_alpha()
-resetUnhover = pygame.image.load("resetUnhover.png").convert_alpha()
-resetHover = pygame.image.load("resetHover.png").convert_alpha()
-shuffleUnhover = pygame.image.load("shuffleUnhover.png").convert_alpha()
-shuffleHover = pygame.image.load("shuffleHover.png").convert_alpha()
+inGameBg = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/backgroundGame.png").convert_alpha()
+header = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/headerGame.png").convert_alpha()
+solveUnhover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/solveUnhover.png").convert_alpha()
+solveHover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/solveHover.png").convert_alpha()
+resetUnhover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/resetUnhover.png").convert_alpha()
+resetHover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/resetHover.png").convert_alpha()
+shuffleUnhover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/shuffleUnhover.png").convert_alpha()
+shuffleHover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/shuffleHover.png").convert_alpha()
 
 def drawMenu():
     screen.blit(menuBg, (0,0))
@@ -197,14 +197,14 @@ def moveRight():
             #screen.blit(tileImage[15], (currentX,currentY))
             animationRight(tileNum, currentX, currentY)
             currentX+=1
-        screen.blit(tileImage[15], (currentX-0.5, currentY))
+        screen.blit(tileImage[15], (currentX-1, currentY))
 
         temp = board[index[0]][index[1]]
         board[index[0]][index[1]] = board[index[0]][index[1]-1]
         board[index[0]][index[1]-1] = temp
 
 def animationRight(tileNum, x, y):
-    screen.blit(tileImage[15], ((x-0.5),y))
+    screen.blit(tileImage[15], ((x-1),y))
     screen.blit(tileImage[tileNum], (x, y))
     pygame.display.update()
 
@@ -227,14 +227,14 @@ def moveLeft():
         while currentX != newX:
             animationLeft(tileNum, currentX, currentY)
             currentX-=1
-        screen.blit(tileImage[15], (currentX+0.5, currentY))
+        screen.blit(tileImage[15], (currentX+1, currentY))
 
         temp = board[index[0]][index[1]]
         board[index[0]][index[1]] = board[index[0]][index[1]+1]
         board[index[0]][index[1]+1] = temp
 
 def animationLeft(tileNum, x, y):
-    screen.blit(tileImage[15], ((x+0.5),y))
+    screen.blit(tileImage[15], ((x+1),y))
     screen.blit(tileImage[tileNum], (x, y))
     pygame.display.update()
 
@@ -257,14 +257,14 @@ def moveDown():
         while currentY != newY:
             animationDown(tileNum, currentX, currentY)
             currentY+=1
-        screen.blit(tileImage[15], (currentX, currentY-0.5))
+        screen.blit(tileImage[15], (currentX, currentY-1))
 
         temp = board[index[0]][index[1]]
         board[index[0]][index[1]] = board[index[0]-1][index[1]]
         board[index[0]-1][index[1]] = temp
 
 def animationDown(tileNum, x, y):
-    screen.blit(tileImage[15], (x,(y-0.5)))
+    screen.blit(tileImage[15], (x,(y-1)))
     screen.blit(tileImage[tileNum], (x, y))
     pygame.display.update()
 
@@ -287,14 +287,14 @@ def moveUp():
         while currentY != newY:
             animationUp(tileNum, currentX, currentY)
             currentY-=1
-        screen.blit(tileImage[15], (currentX, currentY+0.5))
+        screen.blit(tileImage[15], (currentX, currentY+1))
 
         temp = board[index[0]][index[1]]
         board[index[0]][index[1]] = board[index[0]+1][index[1]]
         board[index[0]+1][index[1]] = temp
 
 def animationUp(tileNum, x, y):
-    screen.blit(tileImage[15], (x,(y+0.5)))
+    screen.blit(tileImage[15], (x,(y+1)))
     screen.blit(tileImage[tileNum], (x, y))
     pygame.display.update()
 
@@ -414,19 +414,19 @@ def solve_puzzle(puzzle_board, cur_score, boarding, store_board, store_value, pa
         if (row-1) >= 0:
             temp1_board = swap(temp_board,row, col, row-1,col)
             swap_board.append(temp1_board)
-            moveUp()
+            # moveUp()
         if (row+1) <= 3:
             temp2_board = swap(temp_board,row, col, row+1,col)
             swap_board.append(temp2_board)
-            moveDown()
+            # moveDown()
         if (col-1) >= 0:
             temp3_board = swap(temp_board, row, col, row, col-1)
             swap_board.append(temp3_board)
-            moveRight()
+            # moveRight()
         if (col+1) <= 3:
             temp4_board = swap(temp_board, row, col, row, col+1)
             swap_board.append(temp4_board)
-            moveLeft()
+            # moveLeft()
         #best score heuristic
         score = []
         for i in swap_board:
@@ -441,23 +441,18 @@ def solve_puzzle(puzzle_board, cur_score, boarding, store_board, store_value, pa
         #cek max score
         change = False
         index = -1
+        simpan = []
         for i in range(len(score)):
             if score[i] < cur_score:
                 cur_score = score[i]
-                puzzle_board = swap_board[i]
+                simpan = swap_board[i]
                 change = True
                 index = i
         
-        #cek selesai
-        if cur_score == 0:
-            print("Solution Found")
-            print("board akhir : ", puzzle_board)
-            print("average score : ", (avg/iter))
-            print("boarding : ",boarding)
-            return True, puzzle_board
-        
         #keluarkan isi board sekarang
         if change:
+            check_move(puzzle_board, simpan)
+            puzzle_board = simpan
             store_board.pop(len(store_board)-len(swap_board)+index)
             store_value.pop(len(store_value)-len(score)+index)
             # boarding = copy_board(past_board[len(past_board)-1])
@@ -468,6 +463,14 @@ def solve_puzzle(puzzle_board, cur_score, boarding, store_board, store_value, pa
                         boarding[i][j] = 16
             print("change1",boarding)
 
+        #cek selesai
+        if cur_score == 0:
+            print("Solution Found")
+            print("board akhir : ", puzzle_board)
+            print("average score : ", (avg/iter))
+            print("boarding : ",boarding)
+            return True, puzzle_board
+        
         #local maximum
         if not change:
             temp = [] 
@@ -513,7 +516,18 @@ def solve_puzzle(puzzle_board, cur_score, boarding, store_board, store_value, pa
     # boarding = []
     return False, puzzle_board
     
-    
+def check_move(puzzle_board_ori, puzzle_board_change):
+    row_ori, col_ori = find_blank(puzzle_board_ori)
+    row_change, col_change = find_blank(puzzle_board_change)
+
+    if row_change == (row_ori-1):
+        moveUp()
+    elif row_change == (row_ori+1):
+        moveDown()
+    elif col_change == (col_ori-1):
+        moveLeft()
+    elif col_change == (col_ori+1):
+        moveRight()
 
 def find_blank(puzzle_board):
     for i in range(4):
