@@ -47,24 +47,24 @@ startGame = False
 gameover = False
 
 # menu bg
-menuBg = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/mainMenuBg.png").convert_alpha()
-gameTitle = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/gameTitle.png").convert_alpha()
-startButton = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/startButton.png").convert_alpha()
+menuBg = pygame.image.load("mainMenuBg.png").convert_alpha()
+gameTitle = pygame.image.load("gameTitle.png").convert_alpha()
+startButton = pygame.image.load("startButton.png").convert_alpha()
 
 # tile images
-full = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/full.png").convert_alpha() #isi path sendiri
+full = pygame.image.load("full.png").convert_alpha() #isi path sendiri
 for i in range (1,17):
-    tileImage.append(pygame.image.load(f"D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/tile{i}.png").convert_alpha()) #isi path sendiri
+    tileImage.append(pygame.image.load(f"tile{i}.png").convert_alpha()) #isi path sendiri
 
 # ingame images
-inGameBg = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/backgroundGame.png").convert_alpha()
-header = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/headerGame.png").convert_alpha()
-solveUnhover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/solveUnhover.png").convert_alpha()
-solveHover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/solveHover.png").convert_alpha()
-resetUnhover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/resetUnhover.png").convert_alpha()
-resetHover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/resetHover.png").convert_alpha()
-shuffleUnhover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/shuffleUnhover.png").convert_alpha()
-shuffleHover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/shuffleHover.png").convert_alpha()
+inGameBg = pygame.image.load("backgroundGame.png").convert_alpha()
+header = pygame.image.load("headerGame.png").convert_alpha()
+solveUnhover = pygame.image.load("solveUnhover.png").convert_alpha()
+solveHover = pygame.image.load("solveHover.png").convert_alpha()
+resetUnhover = pygame.image.load("resetUnhover.png").convert_alpha()
+resetHover = pygame.image.load("resetHover.png").convert_alpha()
+shuffleUnhover = pygame.image.load("shuffleUnhover.png").convert_alpha()
+shuffleHover = pygame.image.load("shuffleHover.png").convert_alpha()
 
 def drawMenu():
     screen.blit(menuBg, (0,0))
