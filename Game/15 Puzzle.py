@@ -15,6 +15,7 @@ screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 pygame.display.set_caption("15 PUZZLE")
 
 tileImage = []
+finish = [[1,2,3,4], [5,6,7,8], [9,10,11,12], [13,14,15,16]]
 board = [[1,2,3,4], [5,6,7,8], [9,10,11,12], [13,14,15,16]]
 board_reset = [[1,2,3,4], [5,6,7,8], [9,10,11,12], [13,14,15,16]]
 movement = [[None, None, None, None], [None, None, None, None], [None, None, None, None], [None, None, None, None]]
@@ -45,6 +46,8 @@ hoverShuffle = False
 mainMenu = True
 startGame = False
 gameover = False
+last2 = 0
+remainingTime = 0
 
 # menu bg
 menuBg = pygame.image.load("mainMenuBg.png").convert_alpha()
@@ -65,6 +68,9 @@ resetUnhover = pygame.image.load("resetUnhover.png").convert_alpha()
 resetHover = pygame.image.load("resetHover.png").convert_alpha()
 shuffleUnhover = pygame.image.load("shuffleUnhover.png").convert_alpha()
 shuffleHover = pygame.image.load("shuffleHover.png").convert_alpha()
+gameOver = pygame.image.load("gameover.png").convert_alpha()
+
+font = pygame.font.Font('freesansbold.ttf', 32)
 
 def drawMenu():
     screen.blit(menuBg, (0,0))
@@ -298,6 +304,10 @@ def animationUp(tileNum, x, y):
     screen.blit(tileImage[tileNum], (x, y))
     pygame.display.update()
 
+def drawGameOver():
+    global remainingTime
+    screen.blit(gameOver, (0,0))
+    text = font.render(str(remainingTime), True, (0,0,0), (255,255,255))
 
 
 # GENERATE BOARD =======================================================================================================
@@ -414,19 +424,19 @@ def solve_puzzle(puzzle_board, cur_score, boarding, store_board, store_value, pa
         if (row-1) >= 0:
             temp1_board = swap(temp_board,row, col, row-1,col)
             swap_board.append(temp1_board)
-            # moveUp()
+            moveUp()
         if (row+1) <= 3:
             temp2_board = swap(temp_board,row, col, row+1,col)
             swap_board.append(temp2_board)
-            # moveDown()
+            moveDown()
         if (col-1) >= 0:
             temp3_board = swap(temp_board, row, col, row, col-1)
             swap_board.append(temp3_board)
-            # moveRight()
+            moveRight()
         if (col+1) <= 3:
             temp4_board = swap(temp_board, row, col, row, col+1)
             swap_board.append(temp4_board)
-            # moveLeft()
+            moveLeft()
         #best score heuristic
         score = []
         for i in swap_board:
@@ -627,6 +637,11 @@ while run:
             last = now
             moveDown()
 
+
+        if key[pygame.K_s] and ((now-last) > delay):
+            startGame = False
+            gameover = True
+
         # get mouse input
         mouse_x, mouse_y = pygame.mouse.get_pos()
 
@@ -702,9 +717,38 @@ while run:
             print("Shuffle")
             drawTile1(board)
 
+        if board == finish:
+            startGame = False
+            gameover = True
+            last2 = now
 
     elif gameover:
-        pass
+
+        now = time.time()
+
+        drawGame()
+        drawTile()
+        drawGameOver()
+
+        click = pygame.mouse.get_pressed()
+
+        if click[0] and (now - last) > delay:
+            gameover = False
+            puzzle_board = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]]
+            puzzle_board = init_puzzle(puzzle_board)
+            score = heuristic(puzzle_board, [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]])
+            for i in range(len(board)):
+                for j in range(len(board)):
+                    board[i][j] = puzzle_board[i][j]
+                    if board[i][j] == 0:
+                        board[i][j] = 16
+            board_reset = copy_board(board)
+            print("dishuffle ",puzzle_board)
+            print("dishuffle ",board)
+            print("reset")
+            drawTile1(board)
+            startGame = True
+
 
     pygame.display.update()
 
