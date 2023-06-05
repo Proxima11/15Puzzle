@@ -396,7 +396,7 @@ def init_puzzle(puzzle_board):
 
 def solve_puzzle(puzzle_board, cur_score, boarding, store_board, store_value, past_board, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]], iter = 0, avg = 0):
     # print(past_board)
-    while iter <= 5000:
+    while iter <= 3000:
         # draw bg and tiles
         drawGame()
         drawTile1(boarding)
@@ -414,19 +414,19 @@ def solve_puzzle(puzzle_board, cur_score, boarding, store_board, store_value, pa
         if (row-1) >= 0:
             temp1_board = swap(temp_board,row, col, row-1,col)
             swap_board.append(temp1_board)
-            # moveUp()
+            moveUp()
         if (row+1) <= 3:
             temp2_board = swap(temp_board,row, col, row+1,col)
             swap_board.append(temp2_board)
-            # moveDown()
+            moveDown()
         if (col-1) >= 0:
             temp3_board = swap(temp_board, row, col, row, col-1)
             swap_board.append(temp3_board)
-            # moveRight()
+            moveRight()
         if (col+1) <= 3:
             temp4_board = swap(temp_board, row, col, row, col+1)
             swap_board.append(temp4_board)
-            # moveLeft()
+            moveLeft()
         #best score heuristic
         score = []
         for i in swap_board:
