@@ -50,25 +50,25 @@ last2 = 0
 remainingTime = 0
 
 # menu bg
-menuBg = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/mainMenuBg.png").convert_alpha()
-gameTitle = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/gameTitle.png").convert_alpha()
-startButton = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/startButton.png").convert_alpha()
+menuBg = pygame.image.load("mainMenuBg.png").convert_alpha()
+gameTitle = pygame.image.load("gameTitle.png").convert_alpha()
+startButton = pygame.image.load("startButton.png").convert_alpha()
 
 # tile images
-full = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/full.png").convert_alpha() #isi path sendiri
+full = pygame.image.load("full.png").convert_alpha() #isi path sendiri
 for i in range (1,17):
-    tileImage.append(pygame.image.load(f"D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/tile{i}.png").convert_alpha()) #isi path sendiri
+    tileImage.append(pygame.image.load(f"tile{i}.png").convert_alpha()) #isi path sendiri
 
 # ingame images
-inGameBg = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/backgroundGame.png").convert_alpha()
-header = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/headerGame.png").convert_alpha()
-solveUnhover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/solveUnhover.png").convert_alpha()
-solveHover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/solveHover.png").convert_alpha()
-resetUnhover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/resetUnhover.png").convert_alpha()
-resetHover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/resetHover.png").convert_alpha()
-shuffleUnhover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/shuffleUnhover.png").convert_alpha()
-shuffleHover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/shuffleHover.png").convert_alpha()
-gameOver = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/gameover.png").convert_alpha()
+inGameBg = pygame.image.load("backgroundGame.png").convert_alpha()
+header = pygame.image.load("headerGame.png").convert_alpha()
+solveUnhover = pygame.image.load("solveUnhover.png").convert_alpha()
+solveHover = pygame.image.load("solveHover.png").convert_alpha()
+resetUnhover = pygame.image.load("resetUnhover.png").convert_alpha()
+resetHover = pygame.image.load("resetHover.png").convert_alpha()
+shuffleUnhover = pygame.image.load("shuffleUnhover.png").convert_alpha()
+shuffleHover = pygame.image.load("shuffleHover.png").convert_alpha()
+gameOver = pygame.image.load("gameover.png").convert_alpha()
 
 font = pygame.font.Font('freesansbold.ttf', 32)
 
@@ -309,6 +309,10 @@ def drawGameOver():
     screen.blit(gameOver, (0,0))
     text = font.render(str(remainingTime), True, (0,0,0), (255,255,255))
 
+def drawGameWin():
+    global remainingTime
+    screen.blit(gameWin, (0,0))
+    text = font.render(str(remainingTime),True,(0,0,0),(255,255,255))
 
 # GENERATE BOARD =======================================================================================================
 def count_inversions(arr):
@@ -375,33 +379,6 @@ def init_puzzle(puzzle_board):
                 puzzle_board = swap(puzzle_board,row, col, row,col+1)
     return puzzle_board
 
-# yg lama
-# def init_puzzle(puzzle_board):
-#     b = 3
-#     k = 3
-#     for i in range(100):
-#         angka = numpy.random.randint(0,99)
-#         if angka < 25:
-#             if b > 0:
-#                 puzzle_board[b][k] = puzzle_board[b-1][k]
-#                 b-=1
-#                 puzzle_board[b][k] = 0
-#         elif angka < 50:
-#             if b < 3:
-#                 puzzle_board[b][k] = puzzle_board[b+1][k]
-#                 b+=1
-#                 puzzle_board[b][k] = 0
-#         elif angka < 75:
-#             if k > 0:
-#                 puzzle_board[b][k] = puzzle_board[b][k-1]
-#                 k-=1
-#                 puzzle_board[b][k] = 0
-#         elif angka < 100:
-#             if k < 3:
-#                 puzzle_board[b][k] = puzzle_board[b][k+1]
-#                 k+=1
-#                 puzzle_board[b][k] = 0
-#     return puzzle_board
 # AI SOLVER ============================================================================================================
 
 def solve_puzzle(puzzle_board, cur_score, boarding, store_board, store_value, past_board, goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]], iter = 0, avg = 0):
@@ -424,19 +401,19 @@ def solve_puzzle(puzzle_board, cur_score, boarding, store_board, store_value, pa
         if (row-1) >= 0:
             temp1_board = swap(temp_board,row, col, row-1,col)
             swap_board.append(temp1_board)
-            moveUp()
+            # moveUp()
         if (row+1) <= 3:
             temp2_board = swap(temp_board,row, col, row+1,col)
             swap_board.append(temp2_board)
-            moveDown()
+            # moveDown()
         if (col-1) >= 0:
             temp3_board = swap(temp_board, row, col, row, col-1)
             swap_board.append(temp3_board)
-            moveRight()
+            # moveRight()
         if (col+1) <= 3:
             temp4_board = swap(temp_board, row, col, row, col+1)
             swap_board.append(temp4_board)
-            moveLeft()
+            # moveLeft()
         #best score heuristic
         score = []
         for i in swap_board:
@@ -694,8 +671,14 @@ while run:
             pygame.display.update()
             if(solved):
                 print("Solve")
+                # startGame = False
+                # gamewin = True
+                # last2 = now
             else:
                 print("not solved")
+                startGame = False
+                gameover = True
+                last2 = now
             
             board = copy_board(puzzle_board)
             for i in range(len(board)):
@@ -737,11 +720,6 @@ while run:
             print("Shuffle")
             drawTile1(board)
 
-        if board == finish:
-            startGame = False
-            gameover = True
-            last2 = now
-
     elif gameover:
 
         now = time.time()
@@ -749,6 +727,32 @@ while run:
         drawGame()
         drawTile()
         drawGameOver()
+
+        click = pygame.mouse.get_pressed()
+
+        if click[0] and (now - last) > delay:
+            gameover = False
+            puzzle_board = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]]
+            puzzle_board = init_puzzle(puzzle_board)
+            score = heuristic(puzzle_board, [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]])
+            for i in range(len(board)):
+                for j in range(len(board)):
+                    board[i][j] = puzzle_board[i][j]
+                    if board[i][j] == 0:
+                        board[i][j] = 16
+            board_reset = copy_board(board)
+            print("dishuffle ",puzzle_board)
+            print("dishuffle ",board)
+            print("reset")
+            drawTile1(board)
+            startGame = True
+
+    elif gamewin:
+        now=time.time()
+
+        drawGame()
+        drawTile()
+        drawGameWin()
 
         click = pygame.mouse.get_pressed()
 
