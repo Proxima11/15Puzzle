@@ -50,25 +50,25 @@ last2 = 0
 remainingTime = 0
 
 # menu bg
-menuBg = pygame.image.load("mainMenuBg.png").convert_alpha()
-gameTitle = pygame.image.load("gameTitle.png").convert_alpha()
-startButton = pygame.image.load("startButton.png").convert_alpha()
+menuBg = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/mainMenuBg.png").convert_alpha()
+gameTitle = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/gameTitle.png").convert_alpha()
+startButton = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/startButton.png").convert_alpha()
 
 # tile images
-full = pygame.image.load("full.png").convert_alpha() #isi path sendiri
+full = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/full.png").convert_alpha() #isi path sendiri
 for i in range (1,17):
-    tileImage.append(pygame.image.load(f"tile{i}.png").convert_alpha()) #isi path sendiri
+    tileImage.append(pygame.image.load(f"D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/tile{i}.png").convert_alpha()) #isi path sendiri
 
 # ingame images
-inGameBg = pygame.image.load("backgroundGame.png").convert_alpha()
-header = pygame.image.load("headerGame.png").convert_alpha()
-solveUnhover = pygame.image.load("solveUnhover.png").convert_alpha()
-solveHover = pygame.image.load("solveHover.png").convert_alpha()
-resetUnhover = pygame.image.load("resetUnhover.png").convert_alpha()
-resetHover = pygame.image.load("resetHover.png").convert_alpha()
-shuffleUnhover = pygame.image.load("shuffleUnhover.png").convert_alpha()
-shuffleHover = pygame.image.load("shuffleHover.png").convert_alpha()
-gameOver = pygame.image.load("gameover.png").convert_alpha()
+inGameBg = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/backgroundGame.png").convert_alpha()
+header = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/headerGame.png").convert_alpha()
+solveUnhover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/solveUnhover.png").convert_alpha()
+solveHover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/solveHover.png").convert_alpha()
+resetUnhover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/resetUnhover.png").convert_alpha()
+resetHover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/resetHover.png").convert_alpha()
+shuffleUnhover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/shuffleUnhover.png").convert_alpha()
+shuffleHover = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/shuffleHover.png").convert_alpha()
+gameOver = pygame.image.load("D:/Kuliah Semester 4/Kecerdasan Buatan B/16Puzzle/16Puzzle/Game/gameover.png").convert_alpha()
 
 font = pygame.font.Font('freesansbold.ttf', 32)
 
@@ -627,15 +627,35 @@ while run:
         if key[pygame.K_RIGHT] and ((now-last) > delay):
             last = now
             moveRight()
+            puzzle_board = copy_board(board)
+            for i in range(len(puzzle_board)):
+                for j in range(len(puzzle_board)):
+                    if puzzle_board[i][j] == 16:
+                        puzzle_board[i][j] = 0
         elif key[pygame.K_LEFT] and ((now-last) > delay):
             last = now
             moveLeft()
+            puzzle_board = copy_board(board)
+            for i in range(len(puzzle_board)):
+                for j in range(len(puzzle_board)):
+                    if puzzle_board[i][j] == 16:
+                        puzzle_board[i][j] = 0
         elif key[pygame.K_UP] and ((now-last) > delay):
             last = now
             moveUp()
+            puzzle_board = copy_board(board)
+            for i in range(len(puzzle_board)):
+                for j in range(len(puzzle_board)):
+                    if puzzle_board[i][j] == 16:
+                        puzzle_board[i][j] = 0
         elif key[pygame.K_DOWN] and ((now-last) > delay):
             last = now
             moveDown()
+            puzzle_board = copy_board(board)
+            for i in range(len(puzzle_board)):
+                for j in range(len(puzzle_board)):
+                    if puzzle_board[i][j] == 16:
+                        puzzle_board[i][j] = 0
 
 
         if key[pygame.K_s] and ((now-last) > delay):
