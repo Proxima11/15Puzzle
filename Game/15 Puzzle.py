@@ -69,6 +69,8 @@ resetHover = pygame.image.load("resetHover.png").convert_alpha()
 shuffleUnhover = pygame.image.load("shuffleUnhover.png").convert_alpha()
 shuffleHover = pygame.image.load("shuffleHover.png").convert_alpha()
 gameOver = pygame.image.load("gameover.png").convert_alpha()
+gameWin = pygame.image.load("gameWin.png").convert_alpha()
+
 
 font = pygame.font.Font('freesansbold.ttf', 32)
 
@@ -671,9 +673,9 @@ while run:
             pygame.display.update()
             if(solved):
                 print("Solve")
-                # startGame = False
-                # gamewin = True
-                # last2 = now
+                startGame = False
+                gamewin = True
+                last2 = now
             else:
                 print("not solved")
                 startGame = False
