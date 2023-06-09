@@ -453,7 +453,13 @@ def solve_puzzle(puzzle_board, cur_score, boarding, store_board, store_value, pa
             print("change1",boarding)
 
         #cek selesai
-        if cur_score == 0:
+        win = True
+        for i in range(len(goal)):
+            for j in range(len(goal[i])):
+                if puzzle_board[i][j] != goal[i][j]:
+                    win = False
+
+        if win == True:
             print("Solution Found")
             print("board akhir : ", puzzle_board)
             print("average score : ", (avg/iter))
@@ -526,6 +532,7 @@ def find_blank(puzzle_board):
             
 def heuristic(puzzle_board, goal):
     score = 0
+    #cek jarak tile dari posisi sebenarnya
     for loop in range(16):
         index_puzzle = []
         index_goal = []
@@ -536,6 +543,25 @@ def heuristic(puzzle_board, goal):
                 if goal[i][j] == loop:
                     index_goal = [i,j]
         score = score + (abs(index_puzzle[0]-index_goal[0])) + (abs(index_puzzle[1]-index_goal[1]))
+    
+    #cek horizontal complete
+    for i in range(4):
+        counter_horizontal = 0
+        for j in range(4):
+            if puzzle_board[i][j] == goal[i][j]:
+                counter_horizontal += 1
+        if counter_horizontal == 4:
+            score -= 10
+
+    #cek vertical complete
+    for i in range(4):
+        counter_vertical = 0
+        for j in range(4):
+            if puzzle_board[j][i] == goal[j][i]:
+                counter_vertical += 1
+        if counter_vertical == 4:
+            score -= 10
+    
     return score
             
 def copy_board(puzzle_board):
