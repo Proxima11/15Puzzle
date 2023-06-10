@@ -316,53 +316,7 @@ def drawGameWin():
     screen.blit(gameWin, (0,0))
     text = font.render(str(remainingTime),True,(0,0,0),(255,255,255))
 
-# GENERATE BOARD =======================================================================================================
-def count_inversions(arr):
-    count = 0
-    kosong = 0
-    for i in range(len(arr)):
-        for j in range(i+1, len(arr)):
-            if arr[i] > arr[j] and arr[i] != kosong and arr[j] != kosong:
-                count += 1
-    return count
-
-# cek posisi kosong dari bawah
-def findEmptyPosition(besar,arr):
-    for i in range(besar-1,-1,-1):
-        for j in range(besar-1,-1,-1):
-            if(arr[i][j] == 0):
-                return (besar-i)
-
-def random_board(besar):
-    arr=[]
-    size=besar*besar
-    while len(arr) <= size:
-        if len(arr) == size:
-            break
-        r = random.randint(0,(size-1))
-        if r not in arr:
-            arr.append(r)
-    arr=[[arr[0],arr[1],arr[2],arr[3]],[arr[4],arr[5],arr[6],arr[7]],[arr[8],arr[9],arr[10],arr[11]],[arr[12],arr[13],arr[14],arr[15]]]
-    return arr
-
-# syarat solved
-# besar = genap
-# blank di genap + inversi = ganjil
-# blank di ganjil + inversi = genap
-def generate_board(besar):
-    arr=random_board(besar)
-    bykinversi = count_inversions(arr)
-    posisikosong = findEmptyPosition(besar,arr)
-    #jika genap genap dan ganjil ganjil maka kerja terus, harus salah satu ganjil yg lain genap atau kebalikan
-    while((posisikosong%2 == 0 and bykinversi%2 == 0) and (posisikosong%2 != 0 and bykinversi%2 != 0) ):
-        arr=random_board(besar)
-        bykinversi = count_inversions(arr)
-        posisikosong=findEmptyPosition(besar,arr)
-        if((posisikosong%2 == 0 and bykinversi%2 == 1) or (posisikosong%2 == 1 and bykinversi%2 == 0) ):
-            break
-    return arr
-   
-
+# GENERATE BOARD ======================================================================================================= 
 def init_puzzle(puzzle_board):
     for i in range(100):
         row, col = find_blank(puzzle_board)
